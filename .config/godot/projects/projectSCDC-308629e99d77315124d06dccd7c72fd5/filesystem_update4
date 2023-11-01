@@ -1,0 +1,4 @@
+res://Assets/Themes/UI/MenuButtonTheme.tres
+res://Scenes/Menus/MainMenu.tscn
+res://Scripts/Menus/MainMenu.gd
+res://default_env.tres

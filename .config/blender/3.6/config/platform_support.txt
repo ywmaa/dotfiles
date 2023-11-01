@@ -1,0 +1,5 @@
+{NVIDIA Corporation/NVIDIA GeForce RTX 3070 Laptop GPU/PCIe/SSE2/4.6.0 NVIDIA 535.86.05}=SUPPORTED
+{AMD/AMD Radeon Graphics (renoir, LLVM 15.0.7, DRM 3.52, 6.4.11)/4.6 (Core Profile) Mesa 23.0.3}=SUPPORTED
+{NVIDIA Corporation/NVIDIA GeForce RTX 3070 Laptop GPU/PCIe/SSE2/4.5.0 NVIDIA 535.86.05}=SUPPORTED
+{AMD/AMD Radeon Graphics (renoir, LLVM 15.0.7, DRM 3.54, 6.5.6)/4.6 (Core Profile) Mesa 23.0.3}=SUPPORTED
+{AMD/AMD Radeon Graphics (renoir, LLVM 15.0.7, DRM 3.54, 6.5.8)/4.6 (Core Profile) Mesa 23.0.3}=SUPPORTED

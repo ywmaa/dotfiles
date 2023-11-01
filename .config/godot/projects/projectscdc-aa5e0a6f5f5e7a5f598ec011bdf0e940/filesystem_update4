@@ -1,0 +1,8 @@
+res://Assets/Themes/UI/GreyHealthTheme.tres
+res://Assets/Themes/UI/HealthTheme.tres
+res://Assets/Themes/UI/MeterTheme.tres
+res://Assets/Themes/UI/RedHealthTheme.tres
+res://Assets/Themes/UI/TimerLabelTheme.tres
+res://Scenes/Stage/Main.tscn
+res://Scripts/Stage/Controller.gd
+res://default_env.tres

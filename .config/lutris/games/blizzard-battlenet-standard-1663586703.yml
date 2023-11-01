@@ -1,0 +1,122 @@
+game:
+  arch: win64
+  exe: drive_c/Program Files (x86)/Battle.net/Battle.net.exe
+  prefix: /home/ywmaa/Games/battlenet
+game_slug: battlenet
+name: Blizzard Battle.net
+requires: null
+script:
+  files:
+  - setup:
+      filename: Battle.net-Setup.exe
+      url: https://www.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live
+  game:
+    arch: win64
+    exe: drive_c/Program Files (x86)/Battle.net/Battle.net.exe
+    prefix: $GAMEDIR
+  installer:
+  - task:
+      arch: win64
+      prefix: /home/ywmaa/Games/battlenet
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  - write_file:
+      content: 'dxgi.nvapiHack = False
+
+        [Overwatch.exe]
+
+        dxvk.hud = compiler'
+      file: $GAMEDIR/dxvk.conf
+  - task:
+      app: arial
+      arch: win64
+      prefix: /home/ywmaa/Games/battlenet
+      silent: 'True'
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  - task:
+      arch: win64
+      prefix: /home/ywmaa/Games/battlenet
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  - write_json:
+      data:
+        Client:
+          GameLaunchWindowBehavior: '2'
+          GameSearch:
+            BackgroundSearch: 'true'
+          HardwareAcceleration: 'false'
+          Sound:
+            Enabled: 'false'
+          Streaming:
+            StreamingEnabled: 'false'
+      file: $GAMEDIR/drive_c/users/$USER/Application Data/Battle.net/Battle.net.config
+  - write_config:
+      file: $GAMEDIR/drive_c/users/$USER/Documents/Overwatch/Settings/Settings_v0.ini
+      key: WindowMode
+      section: Render.13
+      value: '"1"'
+  - write_config:
+      file: $GAMEDIR/drive_c/users/$USER/Documents/Overwatch/Settings/Settings_v0.ini
+      key: Type
+      section: MovieExport.1
+      value: '"1"'
+  - write_config:
+      file: $GAMEDIR/drive_c/users/$USER/Documents/Overwatch/Settings/Settings_v0.ini
+      key: UseHardware
+      section: MovieExport.1
+      value: '"0"'
+  - write_file:
+      content: hasseennewcinematic=True
+      file: $GAMEDIR/drive_c/users/$USER/Local Settings/Application Data/Blizzard/Hearthstone/options.txt
+  - task:
+      arch: win64
+      prefix: /home/ywmaa/Games/battlenet
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  - task:
+      arch: win64
+      env:
+        DXVK_CONFIG_FILE: /home/ywmaa/Games/battlenet/dxvk.conf
+        DXVK_STATE_CACHE_PATH: /home/ywmaa/Games/battlenet
+        STAGING_SHARED_MEMORY: '1'
+        __GL_DXVK_OPTIMIZATIONS: '1'
+        __GL_SHADER_DISK_CACHE: '1'
+        __GL_SHADER_DISK_CACHE_PATH: /home/ywmaa/Games/battlenet
+      exclude_processes: Battle.net.exe Agent.exe "Battle.net Helper.exe" wineconsole
+        explorer.exe conhost.exe svchost.exe
+      executable: /home/ywmaa/.cache/lutris/battlenet/setup/Battle.net-Setup.exe
+      prefix: /home/ywmaa/Games/battlenet
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  - task:
+      arch: win64
+      prefix: /home/ywmaa/Games/battlenet
+      wine_path: /home/ywmaa/.local/share/lutris/runners/wine/lutris-7.2-2-x86_64/bin/wine
+  system:
+    env:
+      DXVK_CONFIG_FILE: $GAMEDIR/dxvk.conf
+      DXVK_STATE_CACHE_PATH: $GAMEDIR
+      STAGING_SHARED_MEMORY: 1
+      __GL_DXVK_OPTIMIZATIONS: 1
+      __GL_SHADER_DISK_CACHE: 1
+      __GL_SHADER_DISK_CACHE_PATH: $GAMEDIR
+    exclude_processes: Agent.exe "Battle.net Helper.exe"
+  wine:
+    version: lutris-7.2-2-x86_64
+slug: blizzard-battlenet-standard
+system:
+  env:
+    DXVK_CONFIG_FILE: /home/ywmaa/Games/battlenet/dxvk.conf
+    DXVK_STATE_CACHE_PATH: /home/ywmaa/Games/battlenet
+    STAGING_SHARED_MEMORY: '1'
+    __GL_DXVK_OPTIMIZATIONS: '1'
+    __GL_SHADER_DISK_CACHE: '1'
+    __GL_SHADER_DISK_CACHE_PATH: /home/ywmaa/Games/battlenet
+  exclude_processes: Agent.exe "Battle.net Helper.exe"
+  mangohud: true
+  prefer_system_libs: true
+  prime: false
+variables: {}
+version: Standard
+wine:
+  eac: false
+  esync: true
+  fsync: true
+  version: lutris-7.2-2-x86_64
+year: 1996
