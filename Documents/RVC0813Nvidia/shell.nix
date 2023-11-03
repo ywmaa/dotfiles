@@ -16,9 +16,7 @@ in pkgs.mkShell rec {
     lsb-release
     # Errors in output without those
     pciutils
-
     glxinfo
-
 
     pythonPackages.python
     pythonPackages.pip
@@ -44,7 +42,7 @@ in pkgs.mkShell rec {
 
   ];
   LD_PRELOAD="/run/opengl-driver/lib/libcuda.so";
-  #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+  LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";#"${pkgs.stdenv.cc.cc.lib}/lib";
   # Run this command, only after creating the virtual environment
   postVenvCreation = ''
     unset SOURCE_DATE_EPOCH

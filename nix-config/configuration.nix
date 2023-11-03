@@ -13,7 +13,9 @@ let nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
 
   exec "$@"
 '';
-  unstable = import (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable) { config = config.nixpkgs.config; };
+unstable = import (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
+{ config = config.nixpkgs.config; };
+nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/tarball/main) {};
 in
 
 {
@@ -62,7 +64,17 @@ in
     LC_TIME = "en_US.UTF-8";
   };
   # ZSH
-  programs.zsh.enable = true;
+  programs.zsh = {
+   # Your zsh config
+   enable = true;
+   enableAutosuggestions = true;
+   syntaxHighlighting.enable = true;
+   oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" ];
+      theme = "agnoster";
+    };
+  };
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
   # Enable the X11 windowing system.
@@ -70,12 +82,16 @@ in
   hardware.opengl.enable = true;
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable Hyprland 
+  # Enable Hyprland
+
+  #Needed for swaylock to work for now
+  security.pam.services.swaylock = {};
   nixpkgs.config.permittedInsecurePackages = [
      "electron-24.8.6"
-  ];
+   ];
+  services.dbus.enable = true;
   programs.hyprland = {
      enable = true;
      nvidiaPatches = true;  
@@ -86,15 +102,7 @@ in
         mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
       });
     };
-  programs.thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
-
-
+  fonts.fonts = with pkgs; [ font-awesome nerdfonts google-fonts ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -104,6 +112,10 @@ in
 
   # Enable CUPS to print documents.
   #services.printing.enable = true;
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -196,6 +208,7 @@ in
     xorg.libXfixes
     libGL
     libva
+    libva-utils
     pipewire.lib
     alsaLib
     libpulseaudio
@@ -411,23 +424,37 @@ networking.firewall.allowedUDPPortRanges = [
   environment.systemPackages = with pkgs; [
     home-manager
     killall
+    gnome.nautilus
     # Hyprland Apps
-    font-awesome
+    cliphist
+    wl-clipboard
     networkmanagerapplet
+    pavucontrol
+    brightnessctl
+    playerctl
+    wev
     kitty
-    hyprpaper
+    #hyprpaper
     polkit_gnome
-    swaylock
+    swaylock-effects
+    wlogout
     swww
+    pywal
     qt5.qtwayland
     qt6.qtwayland
-    mako
+    dunst#mako
+    libnotify
+    grim
+    swappy
+    slurp
     rofi-wayland
     xdg-utils
     xdg-desktop-portal
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
+    lf
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    nixgl.auto.nixGLDefault
     appimage-run
     powertop
     patchelf
@@ -508,6 +535,7 @@ networking.firewall.allowedUDPPortRanges = [
     unstable.lenovo-legion
     wireshark
     virt-manager
+    looking-glass-client
   ];
 
   #Proxy 
@@ -520,8 +548,13 @@ networking.firewall.allowedUDPPortRanges = [
 
 
   # Virtual Machine
-
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemuOvmf = true;
+    qemuRunAsRoot = false;
+    onBoot = "ignore";
+    onShutdown = "shutdown";
+  };
   programs.dconf.enable = true; # virt-manager requires dconf to remember settings
 
 
