@@ -1,6 +1,6 @@
 {
     "schema_version": 2,
-    "timestamp": 1698777749,
+    "timestamp": 1702577774,
     "workspace": {
         "0": [
             [
@@ -16,14 +16,14 @@
                             }
                         }
                     ],
-                    "label": "ywmaa@nixos: ~/Documents/RVC0813Nvidia",
+                    "label": "ywmaa@nixos:~/Documents/RVC0813Nvidia",
                     "custom_label_set": false
                 },
                 {
                     "panes": [
                         {
                             "type": "term",
-                            "directory": "/home/ywmaa/Data",
+                            "directory": "/home/ywmaa",
                             "custom_colors": {
                                 "fg_color": null,
                                 "bg_color": null,
@@ -31,7 +31,37 @@
                             }
                         }
                     ],
-                    "label": "ywmaa@nixos: ~/Data",
+                    "label": "ywmaa@nixos:~/Documents/godot",
+                    "custom_label_set": false
+                },
+                {
+                    "panes": [
+                        {
+                            "type": "term",
+                            "directory": "/home/ywmaa/Documents/My Touch",
+                            "custom_colors": {
+                                "fg_color": null,
+                                "bg_color": null,
+                                "palette": null
+                            }
+                        }
+                    ],
+                    "label": "ywmaa@nixos:~/Documents/My Touch",
+                    "custom_label_set": false
+                },
+                {
+                    "panes": [
+                        {
+                            "type": "term",
+                            "directory": "/home/ywmaa/Documents/MyGameDev/Room",
+                            "custom_colors": {
+                                "fg_color": null,
+                                "bg_color": null,
+                                "palette": null
+                            }
+                        }
+                    ],
+                    "label": "ywmaa@nixos:~/Documents/MyGameDev/Room",
                     "custom_label_set": false
                 },
                 {
@@ -46,14 +76,14 @@
                             }
                         }
                     ],
-                    "label": "ywmaa@nixos: ~/Documents/Unreal_Engine_5.3.0/Engine/Binaries/Linux",
+                    "label": "ywmaa@nixos:~/Documents/Unreal_Engine_5.3.0/Engine/Binaries/Linux",
                     "custom_label_set": false
                 },
                 {
                     "panes": [
                         {
                             "type": "term",
-                            "directory": "/home/ywmaa/.config/hypr",
+                            "directory": "/home/ywmaa/Documents/Blender/roman/Episodes/Episode1",
                             "custom_colors": {
                                 "fg_color": null,
                                 "bg_color": null,
@@ -61,14 +91,14 @@
                             }
                         }
                     ],
-                    "label": "ywmaa@nixos: ~",
+                    "label": "ywmaa@nixos:~/Documents/Blender/roman/Episodes/Episode1",
                     "custom_label_set": false
                 },
                 {
                     "panes": [
                         {
                             "type": "term",
-                            "directory": "/home/ywmaa/.icons",
+                            "directory": "/home/ywmaa/Documents/Websites/portfolio",
                             "custom_colors": {
                                 "fg_color": null,
                                 "bg_color": null,
@@ -76,37 +106,7 @@
                             }
                         }
                     ],
-                    "label": "ywmaa@nixos: ~/.icons",
-                    "custom_label_set": false
-                },
-                {
-                    "panes": [
-                        {
-                            "type": "term",
-                            "directory": "/home/ywmaa/Documents/MyGameDev/Room",
-                            "custom_colors": {
-                                "fg_color": null,
-                                "bg_color": null,
-                                "palette": null
-                            }
-                        }
-                    ],
-                    "label": "ywmaa@nixos: ~/Documents/MyGameDev/Room",
-                    "custom_label_set": false
-                },
-                {
-                    "panes": [
-                        {
-                            "type": "term",
-                            "directory": "/home/ywmaa/Documents/MyGameDev/Room",
-                            "custom_colors": {
-                                "fg_color": null,
-                                "bg_color": null,
-                                "palette": null
-                            }
-                        }
-                    ],
-                    "label": "ywmaa@nixos: ~/Documents/MyGameDev/Room",
+                    "label": "ywmaa@nixos:~/Documents/Websites/portfolio",
                     "custom_label_set": false
                 }
             ]

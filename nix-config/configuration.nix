@@ -15,17 +15,20 @@ let nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
 '';
 unstable = import (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
 { config = config.nixpkgs.config; };
-nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/tarball/main) {};
+#nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/tarball/main) {};
 in
 
 {
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
-      #Neovim
       ./nvim.nix
-      #LF File manager
+      #./home-config.nix
       #./lf.nix
+      ./vm.nix
+      ./dynamic_binaries_support.nix
+      ./gnome.nix
+      #./hyprland.nix
     ];
 
   #hibernate Support
@@ -67,9 +70,9 @@ in
   programs.zsh = {
    # Your zsh config
    enable = true;
-   enableAutosuggestions = true;
+   autosuggestions.enable = true;
    syntaxHighlighting.enable = true;
-   oh-my-zsh = {
+   ohMyZsh = {
       enable = true;
       plugins = [ "git" ];
       theme = "agnoster";
@@ -80,29 +83,12 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   hardware.opengl.enable = true;
-  # Enable the GNOME Desktop Environment.
+  # Enable the GNOME Display Manager.
   services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
+#  services.xserver.displayManager.defaultSession = "plasmawayland";
 
-  # Enable Hyprland
 
-  #Needed for swaylock to work for now
-  security.pam.services.swaylock = {};
-  nixpkgs.config.permittedInsecurePackages = [
-     "electron-24.8.6"
-   ];
-  services.dbus.enable = true;
-  programs.hyprland = {
-     enable = true;
-     nvidiaPatches = true;  
-  };
-  programs.waybar = {
-      enable = true;
-      package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    };
-  fonts.fonts = with pkgs; [ font-awesome nerdfonts google-fonts ];
+  fonts.packages = with pkgs; [ corefonts font-awesome nerdfonts google-fonts ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -111,7 +97,8 @@ in
   };
 
   # Enable CUPS to print documents.
-  #services.printing.enable = true;
+  services.printing.enable = false;
+#  services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -141,7 +128,7 @@ in
   users.users.ywmaa = {
     isNormalUser = true;
     description = "ywmaa";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "disk" "networkmanager" "wheel"];
     packages = with pkgs; [
     #  firefox
     #  thunderbird
@@ -150,6 +137,11 @@ in
 
     #Storage Options
     nix.optimise.automatic = true;
+    nix.gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 7d";
+    };
     #https://github.com/nix-community/nix-direnv
     programs.direnv.enable = true;
     programs.direnv = {
@@ -163,198 +155,16 @@ in
       };
     };
 
-    #nix-ld and envfs for dynamic binaries. 
-    services.envfs.enable = true;
-    programs.nix-ld.enable = true;        
-    
-    programs.nix-ld.libraries = with pkgs; [
-
-
-    # Needed for operating system detection until
-    # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved
-    lsb-release
-    # Errors in output without those
-    pciutils
-    # Games' dependencies
-    xorg.xrandr
-    which
-    # Needed by gdialog, including in the steam-runtime
-    perl
-    # Open URLs
-    xdg-utils
-    iana-etc
-    # Steam Play / Proton
-    python3
-    # Steam VR
-    procps
-    usbutils
-
-    # It tries to execute xdg-user-dir and spams the log with command not founds
-    xdg-user-dirs
-
-    # electron based launchers need newer versions of these libraries than what runtime provides
-    sqlite
-    # Godot + Blender
-    stdenv.cc.cc    
-    # Godot Engine
-    libunwind
-
-    # Others
-    xorg.libXcomposite
-    xorg.libXtst
-    xorg.libXrandr
-    xorg.libXext
-    xorg.libX11
-    xorg.libXfixes
-    libGL
-    libva
-    libva-utils
-    pipewire.lib
-    alsaLib
-    libpulseaudio
-    # steamwebhelper
-    harfbuzz
-    libthai
-    pango
-
-    lsof # friends options won't display "Launch Game" without it
-    file # called by steam's setup.sh
-
-    # dependencies for mesa drivers, needed inside pressure-vessel
-    mesa
-    mesa.llvmPackages.llvm.lib
-    vulkan-loader
-    expat
-    wayland
-    xorg.libxcb
-    xorg.libXdamage
-    xorg.libxshmfence
-    xorg.libXxf86vm
-    libelf
-    (lib.getLib elfutils)
-
-    # Without these it silently fails
-    xorg.libXinerama
-    xorg.libXcursor
-    xorg.libXrender
-    xorg.libXScrnSaver
-    xorg.libXi
-    xorg.libSM
-    xorg.libICE
-    gnome2.GConf
-    curlWithGnuTls
-    nspr
-    nss
-    cups
-    libcap
-    SDL2
-    libusb1
-    dbus-glib
-    gsettings-desktop-schemas
-    ffmpeg
-    libudev0-shim
-
-    # Verified games requirements
-    fontconfig
-    freetype
-    xorg.libXt
-    xorg.libXmu
-    libogg
-    libvorbis
-    SDL
-    SDL2_image
-    glew110
-    libidn
-    tbb
-    zlib
-
-    # SteamVR
-    udev
-    dbus
-
-    # Other things from runtime
-    glib
-    gtk2
-    bzip2
-    flac
-    freeglut
-    libjpeg
-    libpng
-    libpng12
-    libsamplerate
-    libmikmod
-    libtheora
-    libtiff
-    pixman
-    speex
-    SDL_image
-    SDL_ttf
-    SDL_mixer
-    SDL2_ttf
-    SDL2_mixer
-    libappindicator-gtk2
-    libdbusmenu-gtk2
-    libindicator-gtk2
-    libcaca
-    libcanberra
-    libgcrypt
-    libvpx
-    librsvg
-    xorg.libXft
-    libvdpau
-
-    # required by coreutils stuff to run correctly
-    # Steam ends up with LD_LIBRARY_PATH=<bunch of runtime stuff>:/usr/lib:<etc>
-    # which overrides DT_RUNPATH in our binaries, so it tries to dynload the
-    # very old versions of stuff from the runtime.
-    # FIXME: how do we even fix this correctly
-    attr
-
-    # Not formally in runtime but needed by some games
-    at-spi2-atk
-    at-spi2-core   # CrossCode
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-plugins-base
-    json-glib # paradox launcher (Stellaris)
-    libdrm
-    libxkbcommon # paradox launcher
-    libvorbis # Dead Cells
-    libxcrypt # Alien Isolation, XCOM 2, Company of Heroes 2
-    mono
-    xorg.xkeyboardconfig
-    xorg.libpciaccess
-    xorg.libXScrnSaver # Dead Cells
-    icu # dotnet runtime, e.g. Stardew Valley
-
-    # screeps dependencies
-    gtk3
-    dbus
-    zlib
-    atk
-    cairo
-    freetype
-    gdk-pixbuf
-    fontconfig
-
-    # Prison Architect
-    libGLU
-    libuuid
-    libbsd
-    alsa-lib
-
-    # Loop Hero
-    libidn2
-    libpsl
-    nghttp2.lib
-    rtmpdump
-    ];
-
-    # My Environment Variables
+   # My Environment Variables
        
     # This is using a rec (recursive) expression to set and access XDG_BIN_HOME within the expression
     # For more on rec expressions see https://nix.dev/tutorials/first-steps/nix-language#recursive-attribute-set-rec
 
+    environment.variables = {
+      WINEPREFIX= "$HOME/spitfire"; # for lmms VST loading
+#      WINELOADER= "$HOME/.local/share/bottles/runners/soda-7.0-9/bin/wine"; # for lmms VST loading
+#      WINEDLLPATH="$HOME/.local/share/bottles/runners/soda-7.0-9/lib/wine/x86_64-unix"; # for lmms VST loading
+    };
 
     programs.java.enable = true;
     environment.sessionVariables = rec {
@@ -367,15 +177,8 @@ in
       NDK_ROOT = "$HOME/AndroidDev/android-sdk/ndk/25.1.8937393"; # for Unreal Engine
       NDKROOT = "$HOME/AndroidDev/android-sdk/ndk/25.1.8937393"; # for Unreal Engine
       JAVA_HOME = "$HOME/android-studio/jbr"; # for Unreal Engine
-      WINEPREFIX= "$HOME/spitfire"; # for lmms VST loading
-      WINELOADER= "$HOME/.local/share/bottles/runners/soda-7.0-9/bin/wine"; # for lmms VST loading
-      WINEDLLPATH="$HOME/.local/share/bottles/runners/soda-7.0-9/lib/wine/x86_64-unix"; # for lmms VST loading
       LD_LIBRARY_PATH= "$NIX_LD_LIBRARY_PATH";
       PATH = [
-	"${WINELOADER}"
-	"${WINEPREFIX}"
-        "${WINEDLLPATH}"
-        "${LD_LIBRARY_PATH}"
         "${ANDROID_HOME}"
         "${NDK_ROOT}"
         "${NDKROOT}"
@@ -393,7 +196,7 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   # Enable flatpak
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   programs.steam = {
     enable = true;
@@ -423,140 +226,84 @@ networking.firewall.allowedUDPPortRanges = [
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    killall
-    gnome.nautilus
-    # Hyprland Apps
-    cliphist
-    wl-clipboard
-    networkmanagerapplet
-    pavucontrol
-    brightnessctl
-    playerctl
-    wev
-    kitty
-    #hyprpaper
-    polkit_gnome
-    swaylock-effects
-    wlogout
-    swww
-    pywal
-    qt5.qtwayland
-    qt6.qtwayland
-    dunst#mako
-    libnotify
-    grim
-    swappy
-    slurp
-    rofi-wayland
-    xdg-utils
-    xdg-desktop-portal
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
+    gparted
+#    alacritty
+#    gnome.gnome-disk-utility
     lf
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    nixgl.auto.nixGLDefault
+    # TOOLS
+    #nixgl.auto.nixGLDefault
     appimage-run
     powertop
-    patchelf
-    libunwind
     clang
     clang-tools
     git
     git-lfs
+    verco
     python3
     python3.pkgs.pip
-    python38
-    python38.pkgs.pip
-    scons
-    pkg-config
-    gcc
     neofetch
     neovim
-    gnome.gnome-software
+    # APPS
+#    gnome.gnome-software
     libreoffice
     firefox
     tor-browser-bundle-bin
     brave
     tor
     proxychains
-    guake
+    guake#libsForQt5.yakuake#guake
     anydesk
     vlc
     unstable.wineWowPackages.unstableFull
     unstable.winetricks
-    amberol
+#    amberol
     obs-studio
 #    zoom-us
     vscode
     chromium
-    google-chrome
+#    google-chrome
     microsoft-edge
-    waydroid
+#    waydroid
     wget
     supergfxctl
     nvidia-offload
-    switcheroo-control
-    gnomeExtensions.gsconnect
-    gnomeExtensions.tiling-assistant
-    gnomeExtensions.vitals
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.dash-to-panel
-    gnomeExtensions.supergfxctl-gex
-    gnomeExtensions.applications-menu
-    gnomeExtensions.arcmenu
-    gnomeExtensions.clipboard-history
-    gnomeExtensions.wireless-hid
-    flatpak
+#    flatpak
     android-tools
-    (unstable.blender.override {
-      cudaSupport = true;
-    })
-
-    gnome.gnome-tweaks
+#    (unstable.blender.override {
+#      cudaSupport = true;
+#    })
     #hibernate extension
-    gnomeExtensions.system-action-hibernate
-    unstable.godot_4
+    #gnomeExtensions.system-action-hibernate
+
+#    unstable.godot_4
     unstable.audacity
     unstable.spotify
-    lmms
+#    lmms
     authy
     bitwarden
     krita
     darktable
+    unstable.bottles-unwrapped
+    unstable.telegram-desktop
     discord
-    fluffychat
-    obsidian
+#    fluffychat
+#    obsidian
     ffmpeg_6-full
     steam-run
-    glibc
-    pciutils
+    lutris
     jdk17
     jdk11
-    unstable.lenovo-legion
-    wireshark
-    virt-manager
-    looking-glass-client
+#    wireshark
+#    unstable.ventoy-full
   ];
 
   #Proxy 
-  services.tor.enable = false;
-  services.tor.settings = {
-        UseBridges = true;
-        ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
-        Bridge = "obfs4 IP:ORPort [fingerprint]";
-  };
-
-
-  # Virtual Machine
-  virtualisation.libvirtd = {
-    enable = true;
-    qemuOvmf = true;
-    qemuRunAsRoot = false;
-    onBoot = "ignore";
-    onShutdown = "shutdown";
-  };
-  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
-
+  #services.tor.enable = false;
+  #services.tor.settings = {
+  #      UseBridges = true;
+  #      ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
+  #      Bridge = "obfs4 IP:ORPort [fingerprint]";
+  #};
 
   # GPU driver and power settings
   services.auto-cpufreq.enable = true;
@@ -584,7 +331,7 @@ networking.firewall.allowedUDPPortRanges = [
     modesetting.enable = true;
 
     # Drivers must be at verion 525 or newer
-    open = true;
+    open = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     prime   = {
       #sync.enable = true;          # Enable Hybrid Graphics

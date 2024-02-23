@@ -1,10 +1,10 @@
 app.window.position.saved=true
 app.window.position.height=600
 app.autostart-mode=""
-app.window.position.y=253
+app.window.position.y=290
 storage.last-location="/home/ywmaa/.cache/spotify/Storage"
 app.window.state.saved=true
 app.window.position.width=800
 app.window.position.x=560
-app.last-launched-version="1.2.13.661.ga588f749"
+app.last-launched-version="1.2.26.1187.g36b715a1"
 app.autostart-configured=true

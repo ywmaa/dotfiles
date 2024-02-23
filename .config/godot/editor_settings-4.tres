@@ -1,13 +1,28 @@
-[gd_resource type="EditorSettings" format=3]
+[gd_resource type="EditorSettings" load_steps=4 format=3]
+
+[sub_resource type="InputEventKey" id="InputEventKey_6bnhq"]
+device = -1
+physical_keycode = 71
+unicode = 103
+
+[sub_resource type="InputEventKey" id="InputEventKey_dvnli"]
+device = -1
+physical_keycode = 82
+unicode = 114
+
+[sub_resource type="InputEventKey" id="InputEventKey_5wtus"]
+device = -1
+physical_keycode = 83
+unicode = 115
 
 [resource]
 interface/editor/code_font_size = 13.0
 interface/theme/preset = "Custom"
-interface/theme/base_color = Color(0.164706, 0.168627, 0.180392, 1)
-interface/theme/accent_color = Color(0.901961, 0.643137, 0.223529, 0.54902)
-interface/theme/contrast = 0.15
+interface/theme/base_color = Color(0.21, 0.24, 0.29, 1)
+interface/theme/accent_color = Color(0.44, 0.73, 0.98, 1)
+interface/theme/contrast = 0.3
 interface/theme/icon_saturation = 2.0
-filesystem/import/blender/blender3_path = "/home/ywmaa/Downloads/blender-3.5.1-linux-x64"
+filesystem/import/blender/blender3_path = "/home/ywmaa/Downloads/blender-4.1.0-alpha-linux.x86_64-release"
 filesystem/import/blender/rpc_port = 0
 text_editor/theme/highlighting/symbol_color = Color(0.67, 0.79, 1, 1)
 text_editor/theme/highlighting/keyword_color = Color(1, 0.44, 0.52, 1)
@@ -15,22 +30,22 @@ text_editor/theme/highlighting/control_flow_keyword_color = Color(1, 0.55, 0.8, 
 text_editor/theme/highlighting/base_type_color = Color(0.26, 1, 0.76, 1)
 text_editor/theme/highlighting/engine_type_color = Color(0.56, 1, 0.86, 1)
 text_editor/theme/highlighting/user_type_color = Color(0.78, 1, 0.93, 1)
-text_editor/theme/highlighting/comment_color = Color(0.791176, 0.792157, 0.795098, 0.5)
+text_editor/theme/highlighting/comment_color = Color(0.8025, 0.81, 0.8225, 0.5)
 text_editor/theme/highlighting/doc_comment_color = Color(0.6, 0.7, 0.8, 0.8)
 text_editor/theme/highlighting/string_color = Color(1, 0.93, 0.63, 1)
-text_editor/theme/highlighting/background_color = Color(0.127647, 0.130686, 0.139804, 1)
-text_editor/theme/highlighting/completion_background_color = Color(0.164706, 0.168627, 0.180392, 1)
+text_editor/theme/highlighting/background_color = Color(0.1155, 0.132, 0.1595, 1)
+text_editor/theme/highlighting/completion_background_color = Color(0.21, 0.24, 0.29, 1)
 text_editor/theme/highlighting/completion_selected_color = Color(1, 1, 1, 0.07)
 text_editor/theme/highlighting/completion_existing_color = Color(1, 1, 1, 0.14)
-text_editor/theme/highlighting/completion_font_color = Color(0.791176, 0.792157, 0.795098, 1)
-text_editor/theme/highlighting/text_color = Color(0.791176, 0.792157, 0.795098, 1)
-text_editor/theme/highlighting/line_number_color = Color(0.791176, 0.792157, 0.795098, 0.5)
-text_editor/theme/highlighting/safe_line_number_color = Color(0.791176, 0.950588, 0.795098, 0.75)
+text_editor/theme/highlighting/completion_font_color = Color(0.8025, 0.81, 0.8225, 1)
+text_editor/theme/highlighting/text_color = Color(0.8025, 0.81, 0.8225, 1)
+text_editor/theme/highlighting/line_number_color = Color(0.8025, 0.81, 0.8225, 0.5)
+text_editor/theme/highlighting/safe_line_number_color = Color(0.8025, 0.972, 0.8225, 0.75)
 text_editor/theme/highlighting/caret_color = Color(1, 1, 1, 1)
-text_editor/theme/highlighting/selection_color = Color(0.901961, 0.643137, 0.223529, 0.219608)
+text_editor/theme/highlighting/selection_color = Color(0.44, 0.73, 0.98, 0.4)
 text_editor/theme/highlighting/brace_mismatch_color = Color(1, 0.47, 0.42, 1)
 text_editor/theme/highlighting/current_line_color = Color(1, 1, 1, 0.07)
-text_editor/theme/highlighting/line_length_guideline_color = Color(0.164706, 0.168627, 0.180392, 1)
+text_editor/theme/highlighting/line_length_guideline_color = Color(0.21, 0.24, 0.29, 1)
 text_editor/theme/highlighting/word_highlighted_color = Color(1, 1, 1, 0.07)
 text_editor/theme/highlighting/number_color = Color(0.63, 1, 0.88, 1)
 text_editor/theme/highlighting/function_color = Color(0.34, 0.7, 1, 1)
@@ -39,9 +54,11 @@ text_editor/theme/highlighting/mark_color = Color(1, 0.47, 0.42, 0.3)
 text_editor/theme/highlighting/breakpoint_color = Color(1, 0.47, 0.42, 1)
 text_editor/theme/highlighting/code_folding_color = Color(1, 1, 1, 0.27)
 text_editor/theme/highlighting/search_result_color = Color(1, 1, 1, 0.07)
+text_editor/script_list/sort_members_outline_alphabetically = true
 editors/3d/freelook/freelook_inertia = 0.2
 debugger/auto_switch_to_remote_scene_tree = true
-project_manager/default_renderer = "gl_compatibility"
+filesystem/import/blender/blender_path = "/home/ywmaa/Downloads/blender-4.1.0-alpha-linux.x86_64-release/blender"
+run/platforms/linuxbsd/prefer_wayland = true
 asset_library/available_urls = {
 "godotengine.org (Official)": "https://godotengine.org/asset-library/api"
 }
@@ -166,6 +183,17 @@ dotnet/build/create_binary_log = false
 interface/scene_tabs/auto_switch_to_remote_scene_tree = false
 editors/3d_gizmos/gizmo_settings/path3d_tilt_disk_size = 0.8
 editors/3d_gizmos/gizmo_colors/path_tilt = Color(1, 1, 0.4, 0.9)
+export/android/java_sdk_path = "/home/ywmaa/android-studio/jbr"
+shortcuts = [{
+"name": "spatial_editor/instant_translate",
+"shortcuts": [SubResource("InputEventKey_6bnhq")]
+}, {
+"name": "spatial_editor/instant_rotate",
+"shortcuts": [SubResource("InputEventKey_dvnli")]
+}, {
+"name": "spatial_editor/instant_scale",
+"shortcuts": [SubResource("InputEventKey_5wtus")]
+}]
 metadata/script_setup_templates_dictionary = {
 "": "0ObjectEmpty",
 "AnimationTree": "0NodeDefault",

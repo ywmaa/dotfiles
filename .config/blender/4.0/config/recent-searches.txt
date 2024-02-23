@@ -1,0 +1,90 @@
+Filter ▸ Blur ▸ Blur
+Color ▸ Adjust ▸ Tonemap
+Color ▸ Adjust ▸ Color Balance
+Color ▸ Mix ▸ Separate Color
+Color ▸ Mix ▸ Combine Color
+Transform ▸ Translate
+Utilities ▸ Vector ▸ Vector Math
+Curve ▸ Read ▸ Endpoint Selection
+Utilities ▸ Math ▸ Boolean Math
+Math ▸Multiply
+Input ▸ Scene ▸ Scene Time
+Group ▸ Group Input
+Curve ▸ Write ▸ Set Curve Radius
+Curve ▸ Read ▸ Spline Parameter
+Utilities ▸ Math ▸ Float Curve
+Utilities ▸ Color ▸ Mix Color
+Curve ▸ Write ▸ Set Spline Type
+Curve ▸ Write ▸ Set Handle Type
+Curve ▸ Operations ▸ Fillet Curve
+   M_Lightning
+Shader ▸ Emission
+Attribute ▸ Store Named Attribute
+Input ▸ Attribute
+parameter
+spline
+spline_curve
+Color ▸ Mix Color
+Curve ▸ Operations ▸ Trim Curve
+lightning_color
+Color ▸ Hue/Saturation/Value
+spline_data
+Converter ▸ Separate XYZ
+Layout ▸ Frame
+Group Input
+Shader ▸ Volume Scatter
+Texture ▸ Noise Texture
+hand.R
+Head
+
+  RIG-HG_Carl
+  HG_Carl
+  HG_Allan
+Deform ▸ Armature
+  Allan_RIGIFY
+  DesertCity|[ywmaa_AnimatorDirectorCut.blend]
+Generate ▸ Subdivision Surface
+  Scene.002
+  Scene.001
+Color ▸ Mix ▸ Mix Color
+Shader ▸ Principled Volume
+Curve ▸ Primitives ▸ Curve Line
+Input ▸ Constant ▸ Value
+Curve ▸ Operations ▸ Curve to Mesh
+Curve ▸ Primitives ▸ Curve Circle
+Geometry ▸ Write ▸ Set Position
+Curve ▸ Operations ▸ Resample Curve
+Utilities ▸ Math ▸ Map Range
+Utilities ▸ Color ▸ Color Ramp
+Utilities ▸ Math ▸ Math
+Utilities ▸ Vector ▸ Combine XYZ
+Input ▸ Constant ▸ Material
+Material ▸ Set Material
+   Material
+Texture ▸ Wave Texture
+Converter ▸ Color Ramp
+  Camera.001
+  Visualizer
+Color ▸ Mix ▸ Alpha Over
+  VideoEditing
+  Scene
+  Eastman Roman Trial Extrabold
+   MetalPlates009_2K_Color.jpg
+armature.symmetrize ▸Symmetrize
+Armature ▸ Symmetrize
+0 Idle.001
+mesh.symmetrize ▸Symmetrize
+transform.mirror ▸Mirror
+Mesh ▸ Symmetrize
+0 WalkForward
+0 Aim
+0 Aim.001
+  Aim
+  Fire
+0 WalkForward.001
+0 WalkLeft
+  WalkRight
+  Idle
+  WalkForward
+  WalkLeft
+0 WalkRight

@@ -2,9 +2,6 @@
 
 {
 
-  # Enable dconf (System Management Tool)
-#  programs.dconf.enable = true;
-
   # Add user to libvirtd group
   users.users.ywmaa.extraGroups = [ "libvirtd" ];
 
@@ -15,6 +12,7 @@
     virt-viewer
     spice spice-gtk
     spice-protocol
+    virtiofsd
     win-virtio
     win-spice
   ];
@@ -25,7 +23,7 @@
     enable = true;
     qemu.swtpm.enable = true;
     qemu.ovmf.enable = true;
-#    qemu.runAsRoot = true;
+    qemu.runAsRoot = true;
     qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
 #    onBoot = "ignore";
 #    onShutdown = "shutdown";
