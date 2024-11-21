@@ -31,6 +31,9 @@ in
       #./hyprland.nix
     ];
 
+  #Enable Lomiri
+#  services.desktopManager.lomiri.enable = true;
+
   #hibernate Support
   boot.resumeDevice = "/dev/nvme0n1p1";
 
@@ -88,12 +91,12 @@ in
 #  services.xserver.displayManager.defaultSession = "plasmawayland";
 
 
-  fonts.packages = with pkgs; [ corefonts font-awesome nerdfonts google-fonts ];
+  fonts.packages = with pkgs; [ corefonts font-awesome google-fonts ]; #nerdfonts
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -122,19 +125,35 @@ in
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-   services.xserver.libinput.enable = true;
+   services.libinput.enable = true;
 
+   services.udisks2.enable = true;
+
+  system.autoUpgrade = {
+    enable = true;
+    flags = [
+	"--update-input"
+	"nixpkgs"
+	"-L"
+    ];
+#    dates = "02:00";
+#    randomizedDelaySec = "45min";
+
+  };
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ]; 
+  programs.adb.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ywmaa = {
     isNormalUser = true;
     description = "ywmaa";
-    extraGroups = [ "disk" "networkmanager" "wheel"];
+    extraGroups = [ "disk" "networkmanager" "wheel" "adbusers"];
     packages = with pkgs; [
     #  firefox
     #  thunderbird
     ];
   };
-
     #Storage Options
     nix.optimise.automatic = true;
     nix.gc = {
@@ -161,9 +180,7 @@ in
     # For more on rec expressions see https://nix.dev/tutorials/first-steps/nix-language#recursive-attribute-set-rec
 
     environment.variables = {
-      WINEPREFIX= "$HOME/spitfire"; # for lmms VST loading
-#      WINELOADER= "$HOME/.local/share/bottles/runners/soda-7.0-9/bin/wine"; # for lmms VST loading
-#      WINEDLLPATH="$HOME/.local/share/bottles/runners/soda-7.0-9/lib/wine/x86_64-unix"; # for lmms VST loading
+    #  WINEPREFIX= "$HOME/spitfire"; # for lmms VST loading
     };
 
     programs.java.enable = true;
@@ -173,6 +190,7 @@ in
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME   = "$HOME/.local/share";
       XDG_STATE_HOME  = "$HOME/.local/state";
+      PMBOOTSTRAP  = "$HOME/.local/bin";
       ANDROID_HOME = "$HOME/AndroidDev/android-sdk"; # for Unreal Engine
       NDK_ROOT = "$HOME/AndroidDev/android-sdk/ndk/25.1.8937393"; # for Unreal Engine
       NDKROOT = "$HOME/AndroidDev/android-sdk/ndk/25.1.8937393"; # for Unreal Engine
@@ -183,6 +201,7 @@ in
         "${NDK_ROOT}"
         "${NDKROOT}"
         "${JAVA_HOME}"
+	"${PMBOOTSTRAP}"
       ];
     };
 
@@ -190,6 +209,7 @@ in
     environment.interactiveShellInit = ''
       alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
       alias sync_watch='watch -d grep -e Dirty: -e Writeback: /proc/meminfo'
+      alias weylus_adb_ports='adb reverse tcp:1701 tcp:1701 && adb reverse tcp:9001 tcp:9001'
     '';
   # sync watch alias
 
@@ -203,6 +223,8 @@ in
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
+  # nix-ld
+  programs.nix-ld.enable = true;
 
   # Enable App Image Support
   boot.binfmt.registrations.appimage = {
@@ -214,6 +236,8 @@ in
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
 
+
+networking.firewall.allowedTCPPorts = [ 1701 9001 ];
 networking.firewall.allowedTCPPortRanges = [
   # KDE Connect
   { from = 1714; to = 1764; }
@@ -225,22 +249,23 @@ networking.firewall.allowedUDPPortRanges = [
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    home-manager
-    gparted
+#    home-manager
+#    gparted
 #    alacritty
 #    gnome.gnome-disk-utility
-    lf
+#    lf
     # TOOLS
+    gnome.mutter
+    p7zip
     #nixgl.auto.nixGLDefault
+    libdecor
     appimage-run
     powertop
-    clang
-    clang-tools
     git
     git-lfs
-    verco
-    python3
-    python3.pkgs.pip
+#    verco
+#    python3 ToRemove
+#    python3.pkgs.pip ToRemove
     neofetch
     neovim
     # APPS
@@ -252,49 +277,64 @@ networking.firewall.allowedUDPPortRanges = [
     tor
     proxychains
     guake#libsForQt5.yakuake#guake
-    anydesk
+#    anydesk
     vlc
     unstable.wineWowPackages.unstableFull
+    unstable.dxvk
     unstable.winetricks
 #    amberol
     obs-studio
-#    zoom-us
+    zoom-us
     vscode
-    chromium
+    unstable.unityhub
+#    (unstable.unityhub.override { extraLibs = { ... }: [ harfbuzz ]; })
+#    chromium
 #    google-chrome
-    microsoft-edge
+#    microsoft-edge
 #    waydroid
     wget
     supergfxctl
     nvidia-offload
 #    flatpak
-    android-tools
-#    (unstable.blender.override {
-#      cudaSupport = true;
-#    })
+#    android-tools
     #hibernate extension
     #gnomeExtensions.system-action-hibernate
 
-#    unstable.godot_4
     unstable.audacity
-    unstable.spotify
-#    lmms
-    authy
+#    unstable.spotify
+    yabridge
+    yabridgectl
+    carla
     bitwarden
     krita
-    darktable
-    unstable.bottles-unwrapped
+    inkscape
+#    darktable
+#    unstable.bottles-unwrapped
     unstable.telegram-desktop
-    discord
+    unstable.discord
 #    fluffychat
 #    obsidian
     ffmpeg_6-full
     steam-run
     lutris
-    jdk17
-    jdk11
+    x11vnc
+    weylus
+    # .NET
+    dotnet-sdk_8
+#    jdk17
+#    jdk11
+    libsForQt5.okular
 #    wireshark
 #    unstable.ventoy-full
+    #PMBOOTSTRAP DEPENDs
+    openssl
+    python3Packages.pytestCheckHook
+    ps
+    sudo
+    multipath-tools
+
+    testdisk
+#    unstable.pmbootstrap
   ];
 
   #Proxy 
@@ -331,8 +371,15 @@ networking.firewall.allowedUDPPortRanges = [
     modesetting.enable = true;
 
     # Drivers must be at verion 525 or newer
-    open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+  	version = "555.58.02";
+  	sha256_64bit = "sha256-xctt4TPRlOJ6r5S54h5W6PT6/3Zy2R4ASNFPu8TSHKM=";
+  	sha256_aarch64 = "sha256-wb20isMrRg8PeQBU96lWJzBMkjfySAUaqt4EgZnhyF8=";
+  	openSha256 = "sha256-8hyRiGB+m2hL3c9MDA/Pon+Xl6E788MZ50WrrAGUVuY=";
+  	settingsSha256 = "sha256-ZpuVZybW6CFN/gz9rx+UJvQ715FZnAOYfHn5jt5Z2C8=";
+  	persistencedSha256 = "sha256-a1D7ZZmcKFWfPjjH1REqPM5j/YLWKnbkP9qfRyIyxAw=";
+    };
     prime   = {
       #sync.enable = true;          # Enable Hybrid Graphics
       offload.enable = true;        # Enable PRIME offloading

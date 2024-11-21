@@ -45,6 +45,5 @@
 #    "f /dev/shm/scream 0660 ywmaa qemu-libvirtd -"
 #    "f /dev/shm/looking-glass 0660 alex qemu-libvirtd -"
 #  ];
-#  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
 
 }
