@@ -18,13 +18,11 @@ Curve ▸ Write ▸ Set Spline Type
 Curve ▸ Write ▸ Set Handle Type
 Curve ▸ Operations ▸ Fillet Curve
    M_Lightning
-Shader ▸ Emission
 Attribute ▸ Store Named Attribute
 Input ▸ Attribute
 parameter
 spline
 spline_curve
-Color ▸ Mix Color
 Curve ▸ Operations ▸ Trim Curve
 lightning_color
 Color ▸ Hue/Saturation/Value
@@ -32,7 +30,6 @@ spline_data
 Converter ▸ Separate XYZ
 Layout ▸ Frame
 Group Input
-Shader ▸ Volume Scatter
 Texture ▸ Noise Texture
 hand.R
 Head
@@ -57,17 +54,14 @@ Curve ▸ Operations ▸ Resample Curve
 Utilities ▸ Math ▸ Map Range
 Utilities ▸ Color ▸ Color Ramp
 Utilities ▸ Math ▸ Math
-Utilities ▸ Vector ▸ Combine XYZ
 Input ▸ Constant ▸ Material
 Material ▸ Set Material
    Material
 Texture ▸ Wave Texture
-Converter ▸ Color Ramp
   Camera.001
   Visualizer
 Color ▸ Mix ▸ Alpha Over
   VideoEditing
-  Scene
   Eastman Roman Trial Extrabold
    MetalPlates009_2K_Color.jpg
 armature.symmetrize ▸Symmetrize
@@ -88,3 +82,32 @@ Mesh ▸ Symmetrize
   WalkForward
   WalkLeft
 0 WalkRight
+0 GuardMovement
+  Typewriter
+  Scene
+Input ▸ Ambient Occlusion
+Converter ▸ Color Ramp
+Color ▸ Mix Color
+Mesh ▸ Operations ▸ Mesh to Points
+Point ▸ Distribute Points on Faces
+Instances ▸ Instance on Points
+Input ▸ Scene ▸ Collection Info
+Utilities ▸ Random Value
+Geometry to Instance ▸Instances
+Vector ▸Vector
+Utilities ▸ Vector ▸ Combine XYZ
+Color ▸ Brightness/Contrast
+O  Guard-CHARACTER.003
+  WalkingPeople
+Instances ▸ Realize Instances
+Shader ▸ Diffuse BSDF
+Shader ▸ Volume Scatter
+Shader ▸ Emission
+ F SkyTexture
+ 0 drakensberg_solitary_mountain_puresky.001
+Converter ▸ Shader to RGB
+   .gs_grass_01.004
+Grass
+   BagaPie_Assets
+   Grass
+ F Add

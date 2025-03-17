@@ -47,7 +47,7 @@
       libva
       libva-utils
       #pipewire.lib
-      alsaLib
+      alsa-lib
       libpulseaudio
       # steamwebhelper
       harfbuzz
@@ -79,7 +79,7 @@
       xorg.libSM
       xorg.libICE
       gnome2.GConf
-      curlWithGnuTls
+#      curlWithGnuTls
       nspr
       nss
       cups

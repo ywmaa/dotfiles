@@ -4,12 +4,13 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.desktopManager.gnome.enable = true;
-  services.gnome.tracker-miners.enable = false;
-  services.gnome.tracker.enable = false;
-
+  services.gnome.localsearch.enable = false;
+  services.gnome.tinysparql.enable = false;
+  
   environment.systemPackages = with pkgs; [
+    mutter
     switcheroo-control
-    gnome.gnome-themes-extra
+    gnome-themes-extra
     gnomeExtensions.pop-shell
     gnomeExtensions.gsconnect
     gnomeExtensions.tiling-assistant
@@ -21,7 +22,8 @@
     gnomeExtensions.arcmenu
     gnomeExtensions.clipboard-history
     gnomeExtensions.wireless-hid
-    gnome.gnome-tweaks
+    gnomeExtensions.appindicator
+    gnome-tweaks
   ];
   
 }

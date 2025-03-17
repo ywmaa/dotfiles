@@ -6,3 +6,5 @@
 {AMD/AMD Radeon Graphics (renoir, LLVM 16.0.6, DRM 3.54, 6.6.3)/4.6 (Core Profile) Mesa 23.1.9}=SUPPORTED
 {AMD/AMD Radeon Graphics (renoir, LLVM 16.0.6, DRM 3.54, 6.6.8)/4.6 (Core Profile) Mesa 23.1.9}=SUPPORTED
 {AMD/AMD Radeon Graphics (renoir, LLVM 16.0.6, DRM 3.57, 6.7.4)/4.6 (Core Profile) Mesa 23.1.9}=SUPPORTED
+{AMD/AMD Radeon Graphics (renoir, LLVM 16.0.6, DRM 3.57, 6.7.5)/4.6 (Core Profile) Mesa 23.1.9}=SUPPORTED
+{AMD/AMD Radeon Graphics (renoir, LLVM 16.0.6, DRM 3.57, 6.7.6)/4.6 (Core Profile) Mesa 23.1.9}=SUPPORTED
