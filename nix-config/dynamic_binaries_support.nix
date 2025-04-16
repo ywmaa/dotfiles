@@ -6,6 +6,7 @@
     programs.nix-ld.enable = true;        
     
     programs.nix-ld.libraries = with pkgs; [
+      wayland-protocols
       # Needed for operating system detection until
       # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved
       lsb-release

@@ -20,7 +20,14 @@ in
 
 {
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # Flakes feature https://nixos.wiki/wiki/flakes
+  #nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  # Enable flatpak
+  # services.flatpak.enable = true;
+
 
   imports =
     [ # Include the results of the hardware scan.
@@ -31,6 +38,7 @@ in
       ./vm.nix
       ./dynamic_binaries_support.nix
       ./gnome.nix
+      #./cosmic.nix
       #./hyprland.nix
       #./lomriri.nix
       ./zsh.nix
@@ -76,11 +84,6 @@ in
   hardware.graphics.enable = true;
   # Enable the GNOME Display Manager.
   services.xserver.displayManager.gdm.enable = true;
-#  services.xserver.displayManager.defaultSession = "plasmawayland";
-#  services.displayManager.autoLogin.enable = true;
-#  services.displayManager.autoLogin.user = "ywmaa";
-#  systemd.services."getty@tty1".enable = false;
-#  systemd.services."autovt@tty1".enable = false;
 
   fonts.packages = with pkgs; [ corefonts font-awesome google-fonts ]; #nerdfonts
 
@@ -145,12 +148,6 @@ in
         package = pkgs.nix-direnv;
       };
     };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  # Enable flatpak
-  services.flatpak.enable = true;
-
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -180,26 +177,17 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
 #    home-manager
-#    gparted
-#    alacritty
-#    gnome.gnome-disk-utility
-#    lf
     # TOOLS
     ghex
     p7zip
-    #nixgl.auto.nixGLDefault
     libdecor
     appimage-run
 #    powertop
     git
     git-lfs
-#    verco
-#    python3 ToRemove
-#    python3.pkgs.pip ToRemove
     neofetch
     neovim
     # APPS
-#    gnome.gnome-software
     libreoffice
     firefox
     tor-browser-bundle-bin
@@ -217,24 +205,19 @@ in
     obs-studio
     zoom-us
     gromit-mpx
-    vscode
+    vscode.fhs
     unstable.code-cursor
-#    unstable.unityhub
-#    (unstable.unityhub.override { extraLibs = { ... }: [ harfbuzz ]; })
-#    chromium
-#    google-chrome
-#    microsoft-edge
+    unstable.unityhub
 #    waydroid
     wget
+    yt-dlp
     supergfxctl
     nvidia-offload
-#    flatpak
 #    android-tools
     #hibernate extension
     #gnomeExtensions.system-action-hibernate
 
     audacity
-#    unstable.spotify
     yabridge
     yabridgectl
     carla
@@ -243,10 +226,8 @@ in
     gimp
     inkscape
 #    darktable
-#    unstable.bottles-unwrapped
     telegram-desktop
     unstable.discord
-#    fluffychat
     obsidian
 #    syncthing
     pandoc
@@ -262,6 +243,7 @@ in
     libsForQt5.okular
 #    wireshark
 #    unstable.ventoy-full
+
     #PMBOOTSTRAP DEPENDs
     openssl
     python3Packages.pytestCheckHook
