@@ -35,7 +35,7 @@ in
       ./nvim.nix
       #./home-config.nix
       #./lf.nix
-      ./vm.nix
+      #./vm.nix
       ./dynamic_binaries_support.nix
       ./gnome.nix
       #./cosmic.nix
@@ -63,7 +63,7 @@ in
   boot.loader.timeout = 1;
   boot.loader.systemd-boot.editor = false;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxPackages_zen;#pkgs.linuxPackages_6_12;#pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;#pkgs.linuxPackages_6_12;#pkgs.linuxPackages_latest;
   boot.kernelParams = [ "quiet" "splash" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_priority=3" ];
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
@@ -177,79 +177,93 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
 #    home-manager
-    # TOOLS
-    ghex
-    p7zip
-    libdecor
-    appimage-run
-#    powertop
-    git
-    git-lfs
-    neofetch
-    neovim
-    # APPS
+
+    # Desktop apps
     libreoffice
     firefox
-    tor-browser-bundle-bin
     brave
-    tor
-    proxychains
-    guake#libsForQt5.yakuake#guake
 #    anydesk
-#    vlc
     mpv
-    unstable.wineWowPackages.unstableFull
-    unstable.dxvk
-    unstable.winetricks
-#    amberol
-    obs-studio
+#    vlc
     zoom-us
-    gromit-mpx
-    vscode.fhs
-    unstable.code-cursor
-    unstable.unityhub
-#    waydroid
-    wget
-    yt-dlp
-    supergfxctl
-    nvidia-offload
-#    android-tools
-    #hibernate extension
-    #gnomeExtensions.system-action-hibernate
 
+    # TOR
+    tor
+    tor-browser-bundle-bin
+    proxychains
+
+    # Coding
+    vscode.fhs
+    #unstable.code-cursor
+    unstable.unityhub
+
+
+    # Audio Software
+    reaper
     audacity
     yabridge
     yabridgectl
     carla
-    bitwarden
+
+    # Visual Software
     krita
     gimp
     inkscape
 #    darktable
+
+    # Social
     telegram-desktop
     unstable.discord
+
+    # Personal
+    bitwarden
     obsidian
 #    syncthing
     pandoc
+
+
+    # TOOLS
+    gromit-mpx
+    ghex
+    git
+    git-lfs
+    neofetch
+    neovim
+    guake#libsForQt5.yakuake#guake
+    unstable.wineWowPackages.unstableFull
+    unstable.dxvk
+    unstable.winetricks
+    obs-studio
+#    waydroid
+ 
+
+    # Utils
     ffmpeg_6-full
     steam-run
-    lutris
-    x11vnc
-    weylus
+    appimage-run
+    wget
+    yt-dlp
+    supergfxctl
+    nvidia-offload
+    #lutris
+#    powertop
+    p7zip
+    #x11vnc
+    #weylus
     # .NET
     dotnet-sdk_8
 #    jdk17
 #    jdk11
-    libsForQt5.okular
+    #libsForQt5.okular
 #    wireshark
 #    unstable.ventoy-full
 
     #PMBOOTSTRAP DEPENDs
-    openssl
-    python3Packages.pytestCheckHook
-    ps
-    sudo
-    multipath-tools
+    #openssl
+    #python3Packages.pytestCheckHook
+    #ps
+    #sudo
+    #multipath-tools
 
     testdisk
 #    unstable.pmbootstrap

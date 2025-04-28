@@ -28,7 +28,7 @@
     modesetting.enable = true;
 
     # Drivers must be at verion 525 or newer
-    open = false;
+    open = true;
     #nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 #    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {

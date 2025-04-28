@@ -24,6 +24,8 @@
     gnomeExtensions.wireless-hid
     gnomeExtensions.appindicator
     gnome-tweaks
+    #Hybernate Extention
+    #gnomeExtensions.system-action-hibernate
   ];
   
 }
