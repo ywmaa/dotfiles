@@ -6,15 +6,20 @@
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
   };
 
-  outputs = { self, nixpkgs, nixos-cosmic, ...} @ inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-cosmic,
+    ...
+  } @ inputs: {
     nixosConfigurations.ywmaa = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = {inherit inputs;};
       modules = [
         (import ./configuration.nix)
         {
           nix.settings = {
-            substituters = [ "https://cosmic.cachix.org/" ];
-            trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+            substituters = ["https://cosmic.cachix.org/"];
+            trusted-public-keys = ["cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="];
           };
         }
         nixos-cosmic.nixosModules.default

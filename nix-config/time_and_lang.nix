@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
-
 {
-
+  config,
+  pkgs,
+  ...
+}: {
   # Set your time zone.
   time.timeZone = "Africa/Cairo";
 
@@ -19,5 +20,4 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-  
 }

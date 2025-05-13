@@ -1,25 +1,27 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ lib, config, pkgs, ... }:
-
-# Running `nvidia-offload vlc` would run VLC with dGPU
-let nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-  export __NV_PRIME_RENDER_OFFLOAD=1
-  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  export __VK_LAYER_NV_optimus=NVIDIA_only
-
-  exec "$@"
-'';
-unstable = import (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
-{ config = config.nixpkgs.config; };
-#nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/tarball/main) {};
-in
-
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+# Running `nvidia-offload vlc` would run VLC with dGPU
+let
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
 
+    exec "$@"
+  '';
+  unstable =
+    import (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
+    {config = config.nixpkgs.config;};
+  #nixgl = import (builtins.fetchTarball https://github.com/guibou/nixGL/tarball/main) {};
+in {
   # Flakes feature https://nixos.wiki/wiki/flakes
   #nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -28,28 +30,28 @@ in
   # Enable flatpak
   # services.flatpak.enable = true;
 
-
-  imports =
-    [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-      ./nvim.nix
-      #./home-config.nix
-      #./lf.nix
-      #./vm.nix
-      ./dynamic_binaries_support.nix
-      ./gnome.nix
-      #./cosmic.nix
-      #./hyprland.nix
-      #./lomriri.nix
-      ./zsh.nix
-      ./gpu_and_power.nix
-      ./firewall_and_ports.nix
-      ./environment_variables.nix
-      ./sound.nix
-      ./android_tools.nix
-      ./time_and_lang.nix
-    ];
-
+  imports = [
+    # Include the results of the hardware scan.
+    /etc/nixos/hardware-configuration.nix
+    #./nvim.nix
+    ./helix.nix
+    #./home-config.nix
+    #./lf.nix
+    #./vm.nix
+    ./dynamic_binaries_support.nix
+    ./gnome.nix
+    #./cosmic.nix
+    #./hyprland.nix
+    #./lomriri.nix
+    ./zsh.nix
+    ./gpu_and_power.nix
+    ./firewall_and_ports.nix
+    ./environment_variables.nix
+    ./sound.nix
+    ./android_tools.nix
+    ./time_and_lang.nix
+  ];
+  services.helix.enable = true;
   #hibernate Support
   boot.resumeDevice = "/dev/nvme0n1p1";
 
@@ -62,9 +64,9 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 1;
   boot.loader.systemd-boot.editor = false;
-  boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_12;#pkgs.linuxPackages_6_12;#pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "quiet" "splash" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_priority=3" ];
+  boot.supportedFilesystems = ["ntfs"];
+  boot.kernelPackages = pkgs.linuxPackages_6_12; #pkgs.linuxPackages_6_12;#pkgs.linuxPackages_latest;
+  boot.kernelParams = ["quiet" "splash" "rd.systemd.show_status=false" "rd.udev.log_level=3" "udev.log_priority=3"];
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
   networking.hostName = "nixos"; # Define your hostname.
@@ -85,7 +87,7 @@ in
   # Enable the GNOME Display Manager.
   services.xserver.displayManager.gdm.enable = true;
 
-  fonts.packages = with pkgs; [ corefonts font-awesome google-fonts ]; #nerdfonts
+  fonts.packages = with pkgs; [corefonts font-awesome google-fonts]; #nerdfonts
 
   # Configure keymap in X11
   services.xserver = {
@@ -95,59 +97,58 @@ in
 
   # Enable CUPS to print documents.
   services.printing.enable = false;
-#  services.printing.drivers = [ pkgs.hplipWithPlugin ];
+  #  services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-   services.libinput.enable = true;
+  services.libinput.enable = true;
 
-   services.udisks2.enable = true;
+  services.udisks2.enable = true;
 
   system.autoUpgrade = {
     enable = true;
     flags = [
-	"--update-input"
-	"nixpkgs"
-	"-L"
+      "--update-input"
+      "nixpkgs"
+      "-L"
     ];
-#    dates = "02:00";
-#    randomizedDelaySec = "45min";
-
+    #    dates = "02:00";
+    #    randomizedDelaySec = "45min";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ywmaa = {
     isNormalUser = true;
     description = "ywmaa";
-    extraGroups = [ "disk" "networkmanager" "wheel" "adbusers"];
+    extraGroups = ["disk" "networkmanager" "wheel" "adbusers"];
     packages = with pkgs; [
-    #  firefox
-    #  thunderbird
+      #  firefox
+      #  thunderbird
     ];
   };
 
-    #Storage Options
-    nix.optimise.automatic = true;
-    nix.gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 7d";
+  #Storage Options
+  nix.optimise.automatic = true;
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
+  };
+  #https://github.com/nix-community/nix-direnv
+  programs.direnv.enable = true;
+  programs.direnv = {
+    package = pkgs.direnv;
+    silent = false;
+    loadInNixShell = true;
+    direnvrcExtra = "";
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
     };
-    #https://github.com/nix-community/nix-direnv
-    programs.direnv.enable = true;
-    programs.direnv = {
-      package = pkgs.direnv;
-      silent = false;
-      loadInNixShell = true;
-      direnvrcExtra = "";
-      nix-direnv = {
-        enable = true;
-        package = pkgs.nix-direnv;
-      };
-    };
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -176,15 +177,15 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-#    home-manager
+    #    home-manager
 
     # Desktop apps
     libreoffice
     firefox
     brave
-#    anydesk
+    #    anydesk
     mpv
-#    vlc
+    #    vlc
     zoom-us
 
     # TOR
@@ -193,10 +194,10 @@ in
     proxychains
 
     # Coding
+    helix
     vscode.fhs
-    #unstable.code-cursor
+    unstable.code-cursor
     unstable.unityhub
-
 
     # Audio Software
     reaper
@@ -209,7 +210,7 @@ in
     krita
     gimp
     inkscape
-#    darktable
+    #    darktable
 
     # Social
     telegram-desktop
@@ -218,9 +219,8 @@ in
     # Personal
     bitwarden
     obsidian
-#    syncthing
+    #    syncthing
     pandoc
-
 
     # TOOLS
     gromit-mpx
@@ -228,14 +228,12 @@ in
     git
     git-lfs
     neofetch
-    neovim
-    guake#libsForQt5.yakuake#guake
+    guake #libsForQt5.yakuake#guake
     unstable.wineWowPackages.unstableFull
     unstable.dxvk
     unstable.winetricks
     obs-studio
-#    waydroid
- 
+    #    waydroid
 
     # Utils
     ffmpeg_6-full
@@ -246,17 +244,17 @@ in
     supergfxctl
     nvidia-offload
     #lutris
-#    powertop
+    #    powertop
     p7zip
     #x11vnc
     #weylus
     # .NET
     dotnet-sdk_8
-#    jdk17
-#    jdk11
+    #    jdk17
+    #    jdk11
     #libsForQt5.okular
-#    wireshark
-#    unstable.ventoy-full
+    #    wireshark
+    #    unstable.ventoy-full
 
     #PMBOOTSTRAP DEPENDs
     #openssl
@@ -266,10 +264,10 @@ in
     #multipath-tools
 
     testdisk
-#    unstable.pmbootstrap
+    #    unstable.pmbootstrap
   ];
 
-  #Proxy 
+  #Proxy
   #services.tor.enable = false;
   #services.tor.settings = {
   #      UseBridges = true;
@@ -289,5 +287,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }

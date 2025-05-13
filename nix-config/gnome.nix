@@ -1,12 +1,13 @@
-{ config, pkgs, ... }:
-
 {
-
+  config,
+  pkgs,
+  ...
+}: {
   # Enable the GNOME Desktop Environment.
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.localsearch.enable = false;
   services.gnome.tinysparql.enable = false;
-  
+
   environment.systemPackages = with pkgs; [
     mutter
     switcheroo-control
@@ -27,5 +28,4 @@
     #Hybernate Extention
     #gnomeExtensions.system-action-hibernate
   ];
-  
 }

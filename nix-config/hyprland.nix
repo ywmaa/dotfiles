@@ -1,26 +1,27 @@
-{ config, pkgs, ... }:
-
 {
-
+  config,
+  pkgs,
+  ...
+}: {
   # Enable Hyprland
 
   #Needed for swaylock to work for now
   security.pam.services.swaylock = {};
   nixpkgs.config.permittedInsecurePackages = [
-     "electron-24.8.6"
+    "electron-24.8.6"
   ];
   services.dbus.enable = true;
   programs.hyprland = {
-     package = unstable.hyprland;
-     enable = true;
-     xwayland.enable = true;
+    package = unstable.hyprland;
+    enable = true;
+    xwayland.enable = true;
   };
   programs.waybar = {
-      enable = true;
-      package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    };
+    enable = true;
+    package = pkgs.waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
+    });
+  };
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin
@@ -46,7 +47,7 @@
     pywal
     qt5.qtwayland
     qt6.qtwayland
-    dunst#mako
+    dunst #mako
     libnotify
     grim
     swappy
@@ -57,5 +58,4 @@
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
   ];
-  
 }
